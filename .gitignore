@@ -1,3 +1,5 @@
 build
 .vscode
 secrets.h
+.pio
+.venv

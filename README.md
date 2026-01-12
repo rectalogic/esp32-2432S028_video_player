@@ -1,3 +1,24 @@
+# PlatformIO Cheap Yellow Display Video Player (ESP32-2432S028)
+
+Ported to PlatformIO
+
+Setup platformio CLI:
+
+```sh-session
+$ uv venv
+$ uv pip install platformio intelhex
+$ .venv/bin/pio run -t upload -t monitor
+```
+
+The display is oriented in landscape mode.
+```sh-session
+$ ffmpeg -i input.mp4 -an -pix_fmt yuvj420p -q:v 7 -vf "framerate=24,scale=size=320x240:force_original_aspect_ratio=decrease:reset_sar=1:flags=lanczos" -y output.mjpeg
+```
+
+---
+
+# Original README below
+
 # Cheap Yellow Display Video Player (ESP32-2432S028)
 
 <a href="https://www.buymeacoffee.com/thelastoutpostworkshop" target="_blank">

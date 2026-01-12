@@ -17,8 +17,8 @@
 #define BOOT_BUTTON_DEBOUCE_TIME 400 // Debounce time when reading the boot button in milliseconds
 
 // Some model of cheap Yellow display works only at 40Mhz
-// #define DISPLAY_SPI_SPEED 40000000L // 40MHz 
-#define DISPLAY_SPI_SPEED 80000000L // 80MHz 
+#define DISPLAY_SPI_SPEED 40000000L // 40MHz
+//#define DISPLAY_SPI_SPEED 80000000L // 80MHz
 
 
 #define SD_SPI_SPEED 80000000L      // 80Mhz
@@ -56,6 +56,11 @@ volatile bool skipRequested = false; // set in ISR, read in loop()
 volatile uint32_t isrTick = 0;       // tick count captured in ISR
 uint32_t lastPress = 0;              // used in main context for debounc
 
+void loadMjpegFilesList();
+void playSelectedMjpeg(int mjpegIndex);
+void mjpegPlayFromSDCard(char *mjpegFilename);
+String formatBytes(size_t bytes);
+
 void IRAM_ATTR onButtonPress()
 {
     skipRequested = true;                 // flag handled in the playback loop
@@ -80,7 +85,7 @@ void setup()
             /* no need to continue */
         }
     }
-    gfx->setRotation(0);
+    gfx->setRotation(1);
     gfx->fillScreen(RGB565_BLACK);
     // gfx->invertDisplay(true); // on some cheap yellow models, display must be inverted
     Serial.printf("Screeen size Width=%d,Height=%d\n", gfx->width(), gfx->height());
@@ -122,7 +127,7 @@ void setup()
     loadMjpegFilesList(); // Load the list of mjpeg to play from the SD card
 
     // Set the boot button to skip the current mjpeg playing and go to the next
-    pinMode(BOOT_PIN, INPUT);                        
+    pinMode(BOOT_PIN, INPUT);
     attachInterrupt(digitalPinToInterrupt(BOOT_PIN), // fast ISR
                     onButtonPress, FALLING);         // press == LOW
 }
