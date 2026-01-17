@@ -10,6 +10,18 @@ $ uv pip install platformio intelhex
 $ .venv/bin/pio run -t upload -t monitor
 ```
 
+If your device is on a different USB port, find the port:
+
+```sh-session
+$ .venv/bin/pio device list
+```
+
+Then pass it in, e.g.:
+
+```sh-session
+$ .venv/bin/pio run -t upload -t monitor --upload-port /dev/cu.usbserial-210 --monitor-port /dev/cu.usbserial-210
+```
+
 The display is oriented in landscape mode.
 ```sh-session
 $ ffmpeg -i input.mp4 -an -pix_fmt yuvj420p -q:v 7 -vf "framerate=24,scale=size=320x240:force_original_aspect_ratio=decrease:reset_sar=1:flags=lanczos" -y output.mjpeg
