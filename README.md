@@ -5,7 +5,7 @@ Ported to PlatformIO
 Setup platformio CLI:
 
 ```sh-session
-$ uv venv
+$ uv venv --seed
 $ uv pip install platformio intelhex
 $ .venv/bin/pio run -t upload -t monitor
 ```
